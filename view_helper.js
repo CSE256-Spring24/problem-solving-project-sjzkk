@@ -223,11 +223,11 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         which_groups = perm_groupnames
     }
     descriptions = {
-        "Read": "Read contents",
+        "Read": "Read/Access contents",
         "Write": "Write contents",
-        "Read_Execute": "Read + Execute",
-        "Modify": "Write + Delete",
-        "Full_control": "All above + Take ownership",
+        "Read_Execute": "Read/Access + Execute",
+        "Modify": "Write + Delete (Make changes)",
+        "Full_control": "All above + Take ownership/Change permissions",
         "Special_permissions": "Special"
     }
     // For each permissions group, create a row:

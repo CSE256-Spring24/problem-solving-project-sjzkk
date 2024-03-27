@@ -78,9 +78,8 @@ cant_remove_dialog = define_new_dialog('cant_remove_inherited_dialog', 'Security
 })
 cant_remove_dialog.html(`
 <div id="cant_remove_text">
-    You can't remove <span id="cant_remove_username_1" class = "cant_remove_username"></span> because this object is inheriting permissions from 
-    its parent. To remove <span id="cant_remove_username_2" class = "cant_remove_username"></span>, you must prevent this object from inheriting permissions.
-    Turn off the option for inheriting permissions, and then try removing <span id="cant_remove_username_3" class = "cant_remove_username"></span>  again.
+    You can't remove <span id="cant_remove_username_1" class = "cant_remove_username"></span> because this file is inheriting permissions from 
+    its parent folder. Turn off the option for inheriting permissions in <b>Advanced</b> settings, and then try removing <span id="cant_remove_username_3" class = "cant_remove_username"></span>  again.
 </div>`)
 
 // Make a confirmation "are you sure you want to remove?" dialog
@@ -149,7 +148,9 @@ perm_dialog.append(obj_name_div)
 perm_dialog.append($('<div id="permissions_user_title">Group or user names: (If an user or group does not exist in the list, click on add)</div>'))
 perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
-perm_dialog.append($('<div id="grayed_out_explanation"><b>Note: </b>Some checkboxes may be grayed out due to inheritance, check Advanced settings</div>'))
+perm_dialog.append($('<div id="grayed_out_explanation"><b>Note: </b>Some checkboxes may be grayed out due to inheritance, check <b>Advanced</b> settings</div>'))
+perm_dialog.append($('<div id="deny_explanation"><b>Note: </b>Deny is prioritized over Allow. More specific user group is prioritized over its parent user group (eg. specific employee vs. all employees).</div>'))
+perm_dialog.append($('<div id="no_explanation"><b>Note: </b>If there are no permission set to the group nor its parent user group, access will be denied.</div>'))
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
 perm_dialog.append(grouped_permissions)
 perm_dialog.append(advanced_expl_div)
@@ -356,9 +357,9 @@ $('#adv_perm_inheritance').change(function(){
         // has just been turned off - pop up dialog with add/remove/cancel
         $(`<div id="add_remove_cancel" title="Security">
             Warning: if you proceed, inheritable permissions will no longer propagate to this object.<br/>
-            - Click Add to convert and add inherited parent permissions as explicit permissions on this object<br/>
-            - Click Remove to remove inherited parent permissions from this object<br/>
-            - Click Cancel if you do not want to modify inheritance settings at this time.<br/>
+            - <b>(Recommended)</b> Click <b>Convert</b> to convert the  inherited parent permissions to explicit permissions. Select if you still want to preserve current permission settings for this file.<br/>
+            - Click <b>Remove</b> to remove inherited parent permissions. Select if you want to remove all inherited permission for this file. <b>Caution: This will remove inherited permission for all user groups and may make significant changes to the file.</b><br/>
+            - Click <b>Cancel</b> if you do not want to modify inheritance settings at this time.<br/>
         </div>`).dialog({ // TODO: don't create this dialog on the fly
             modal: true,
             width: 400,
@@ -366,7 +367,7 @@ $('#adv_perm_inheritance').change(function(){
             position: { my: "top", at: "top", of: $('#html-loc') },
             buttons: {
                 Add: {
-                    text: "Add",
+                    text: "Convert",
                     id: "adv-inheritance-add-button",
                     click: function() {
                         let filepath = $('#advdialog').attr('filepath')
