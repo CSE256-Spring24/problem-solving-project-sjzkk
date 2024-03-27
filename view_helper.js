@@ -222,10 +222,18 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
     if(which_groups === null) {
         which_groups = perm_groupnames
     }
+    descriptions = {
+        "Read": "Read contents",
+        "Write": "Write contents",
+        "Read_Execute": "Read + Execute",
+        "Modify": "Write + Delete",
+        "Full_control": "All above + Take ownership",
+        "Special_permissions": "Special"
+    }
     // For each permissions group, create a row:
     for(let g of which_groups){
         let row = $(`<tr id="${id_prefix}_row_${g}">
-            <td id="${id_prefix}_${g}_name">${g}</td>
+            <td id="${id_prefix}_${g}_name"><b>${g}:</b> ${descriptions[g]}</td>
         </tr>`)
         for(let ace_type of ['allow', 'deny']) {
             row.append(`<td id="${id_prefix}_${g}_${ace_type}_cell">
