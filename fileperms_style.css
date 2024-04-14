@@ -36,3 +36,16 @@
 .no-close .ui-dialog-titlebar-close {
     display: none;
 }
+
+#explanation-container {
+    padding: 24px;
+    font-size: 1.2rem;
+}
+
+#explanation-container h3 {
+    padding: 12px;
+}
+
+#explanation-container ul {
+    padding: 12px;
+}

@@ -206,6 +206,21 @@
                 <script src="view_baseline.js"></script>
                 <script src="view.js"></script>
             </div>
+            <div id="explanation-container">
+                <h3>Permission Rules</h3>
+                <ul>
+                    <li>
+                        Direct permissions take precedence over inherited permissions (if any)
+                        and inherited permissions at a "closer" level to the file in question take precedence over ones that are "further" (e.g. parent permissions take precedence over grandparent permissions)
+                    </li>
+                    <li>
+                        Within the same inheritance level, "deny" permissions take precedence over "allow" permissions.
+                    </li>
+                    <li>
+                        Within the same inheritance level, permissions set for users and groups have the same priority; neither takes priority over the other.
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
     <script id="log_model_script" src="core/entry_model.js">

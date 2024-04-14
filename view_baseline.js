@@ -7,8 +7,8 @@ show_starter_dialogs = false // set this to "false" to disable the survey and 3-
 // Make permissions dialog:
 perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     // The following are standard jquery-ui options. See https://jqueryui.com/dialog/
-    height: 500,
-    width: 400,
+    height: 700,
+    width: 960,
     buttons: {
         OK:{
             text: "Save",
@@ -27,6 +27,13 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     }
 })
 
+let student_panel = define_new_effective_permissions("studio_panel", true)
+  
+let dialog = define_new_dialog("studio_dialog", "Permission Explanation", {
+    height: 200,
+    width: 400,
+})
+
 // Make the initial "Object Name:" text:
 // If you pass in valid HTML to $(), it will *create* elements instead of selecting them. (You still have to append them, though)
 obj_name_div = $('<div id="permdialog_objname" class="section">Object Name: <span id="permdialog_objname_namespan"></span> </div>')
@@ -42,6 +49,11 @@ grouped_permissions.addClass('section') // add a 'section' class to the grouped_
 file_permission_users = define_single_select_list('permdialog_file_user_list', function(selected_user, e, ui){
     // when a new user is selected, change username attribute of grouped permissions:
     grouped_permissions.attr('username', selected_user)
+    student_panel.attr("username", selected_user)
+    student_panel.attr(
+        "filepath",
+        perm_dialog.attr('filepath')
+    )
 })
 file_permission_users.css({
     'height':'80px',
@@ -145,15 +157,28 @@ perm_remove_user_button.click(function(){
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
 perm_dialog.append(obj_name_div)
-perm_dialog.append($('<div id="permissions_user_title">Group or user names: (If an user or group does not exist in the list, click on add)</div>'))
+perm_dialog.append($('<div id="permissions_user_title"><h4><b>Select </b>Group or user names to view permission: (If an user or group does not exist in the list, click on add)</h4></div>'))
 perm_dialog.append(file_permission_users)
 perm_dialog.append(perm_add_user_select)
+perm_dialog.append($('<div id="permission_panel_explanation"><h4>Current detailed permissions for selected user: (click on info icon to view explanation)</h4></div>'))
+perm_dialog.append(student_panel)
+perm_dialog.append($('<div id="grayed_out_explanation"><h4>Click on checkboxes to edit permission settings for selected user:</h4></div>'))
 perm_dialog.append($('<div id="grayed_out_explanation"><b>Note: </b>Some checkboxes may be grayed out due to inheritance, check <b>Advanced</b> settings</div>'))
-perm_dialog.append($('<div id="deny_explanation"><b>Note: </b>Deny is prioritized over Allow. More specific user group is prioritized over its parent user group (eg. specific employee vs. all employees).</div>'))
-perm_dialog.append($('<div id="no_explanation"><b>Note: </b>If there are no permission set to the group nor its parent user group, access will be denied.</div>'))
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
 perm_dialog.append(grouped_permissions)
-perm_dialog.append(advanced_expl_div)
+$(".perm_info").click(function () {
+    dialog.empty()
+    let filename = student_panel.attr("filepath")
+    let username = student_panel.attr("username")
+    let permission_type = $(this).attr("permission_name")
+    file = path_to_file[filename]
+    user = all_users[username]
+    let explanation = allow_user_action(file, user, permission_type, true)
+    let text = get_explanation_text(explanation)
+    dialog.append(text)
+    dialog.dialog("open")
+  })
+// perm_dialog.append(advanced_expl_div)
 
 // --- Additional logic for reloading contents when needed: ---
 //Define an observer which will propagate perm_dialog's filepath attribute to all the relevant elements, whenever it changes:
