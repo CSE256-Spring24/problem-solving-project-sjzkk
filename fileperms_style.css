@@ -49,3 +49,7 @@
 #explanation-container ul {
     padding: 12px;
 }
+
+.perm_info {
+    cursor: pointer;
+}
