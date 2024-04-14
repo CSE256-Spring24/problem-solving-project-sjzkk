@@ -352,7 +352,7 @@ let adv_contents = $(`#advdialog`).dialog({
     appendTo: "#html-loc",
     buttons: {
         OK: {
-            text: "OK",
+            text: "Save",
             id: "advanced-dialog-ok-button",
             click: function() {
                 $( this ).dialog( "close" );
