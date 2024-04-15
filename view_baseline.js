@@ -164,6 +164,7 @@ perm_dialog.append($('<div id="permission_panel_explanation"><h4>Current detaile
 perm_dialog.append(student_panel)
 perm_dialog.append($('<div id="grayed_out_explanation"><h4>Click on checkboxes to edit permission settings for selected user:</h4></div>'))
 perm_dialog.append($('<div id="grayed_out_explanation"><b>Note: </b>Some checkboxes may be grayed out due to inheritance, check <b>Advanced</b> settings</div>'))
+perm_dialog.append($('<div id="grayed_out_explanation"><b>If certain user is allowed for a permission, but it belongs to a parent group that denies that permission, deny overrides allow and the user is not allowed for that permission.</div>'))
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
 perm_dialog.append(grouped_permissions)
 $(".perm_info").click(function () {
