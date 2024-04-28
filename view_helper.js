@@ -214,8 +214,8 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
             <th id="${id_prefix}_header_p" width="99%">Permissions for <span id="${id_prefix}_header_username" ></span>
             <span style="color: red;">(save before submit!)</span>
             </th>
-            <th id="${id_prefix}_header_allow">Allow</th>
-            <th id="${id_prefix}_header_deny">Deny</th>
+            <th id="${id_prefix}_header_allow" style="font-size: 14px;">Allow</th>
+            <th id="${id_prefix}_header_deny" style="font-size: 14px; padding-right: 10px;">Deny</th>
         </tr>
         
     </table>

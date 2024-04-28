@@ -38,6 +38,7 @@ var firstColumn = $('<div>').css({
     'display': 'flex',
     'flex-direction': 'column',
     'justify-content': 'space-between'
+    
 });
 
 var secondColumn = $('<div>').css({
