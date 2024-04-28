@@ -42,6 +42,7 @@ var firstColumn = $('<div>').css({
 
 var secondColumn = $('<div>').css({
     'display': 'flex',
+    'margin-left': '20px',
     'flex-direction': 'column',
     'align-items': 'flex-start',
     'justify-content': 'flex-start'
@@ -182,11 +183,14 @@ firstColumn.append(file_permission_users)
 firstColumn.append(perm_add_user_select)
 
 firstColumn.append($('<div id="grayed_out_explanation"><h4>Click on checkboxes to edit permission settings for selected user:</h4></div>'))
+firstColumn.append($('<div id="grayed_out_explanation"><p>Note: In the same level, deny overrides allow.</p></div>'))
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
 firstColumn.append(grouped_permissions)
 secondColumn.append($('<div id="permission_panel_explanation"><h4>Current detailed permissions for selected user: (click on info icon to view explanation)</h4></div>'))
 secondColumn.append(student_panel)
-secondColumn.append($('<div id="permission_panel_explanation"><h4>Remember, if a group has denied an permission, all its users are also denied!</h4></div>'))
+secondColumn.append($('<div id="permission_panel_explanation"><h4>If you want to remove certain permission, but the checkbox is greyed out, you can deny that permission to achieve the same result.</h4></div>').css('margin-bottom', '20px'))
+secondColumn.append($('<div id="permission_panel_explanation"><h4>Remember, if a parent group has denied an permission, all its children are also denied!</h4></div>'))
+secondColumn.append($('<div id="permission_panel_explanation"><p>(For instance, teaching assistant belongs to the students group, if the group students denied certain permission, teaching assistant can not have that permission even if it is allowed to do so.)</p></div>'))
 perm_dialog.append(firstColumn, secondColumn);
 $(".perm_info").click(function () {
     dialog.empty()
