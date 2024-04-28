@@ -148,7 +148,7 @@ function define_single_select_list(id_prefix, on_selection_change = function(sel
 // - returns the jquery object for the effective permissions panel, ready to be attached/appended anywhere you want it.
 function define_new_effective_permissions(id_prefix, add_info_col = false, which_permissions = null){
     // Set up the table:
-    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="overflow-y:scroll"></div>`)
+    let effective_container = $(`<div id="${id_prefix}" class="ui-widget-content" style="width: 80%; margin-left: 50px; margin-top: 20px; margin-bottom: 20px; "overflow-y:scroll"></div>`)
     
     // If no subset of permissions is passed in, use all of them.
     if(which_permissions === null) {
@@ -225,12 +225,12 @@ function define_grouped_permission_checkboxes(id_prefix, which_groups = null) {
         which_groups = perm_groupnames
     }
     descriptions = {
-        "Read": "Read/Access contents",
-        "Write": "Write contents",
-        "Read_Execute": "Read/Access + Execute",
-        "Modify": "Write + Delete (Make changes)",
-        "Full_control": "All above + Take ownership/Change permissions",
-        "Special_permissions": "Special"
+        "Read": "",
+        "Write": "",
+        "Read_Execute": "",
+        "Modify": "(Make changes)",
+        "Full_control": "",
+        "Special_permissions": ""
     }
     // For each permissions group, create a row:
     for(let g of which_groups){

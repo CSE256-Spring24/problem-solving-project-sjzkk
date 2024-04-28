@@ -9,6 +9,13 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
     // The following are standard jquery-ui options. See https://jqueryui.com/dialog/
     height: 700,
     width: 960,
+    create: function(event, ui) {
+        // Set the dialog's content area (.ui-dialog-content) to use Flexbox
+        $(this).css({
+            'display': 'flex',
+            'flex-direction': 'row', // Main axis is horizontal
+        });
+    },
     buttons: {
         OK:{
             text: "Save",
@@ -26,6 +33,19 @@ perm_dialog = define_new_dialog('permdialog', title='Permissions', options = {
         }
     }
 })
+
+var firstColumn = $('<div>').css({
+    'display': 'flex',
+    'flex-direction': 'column',
+    'justify-content': 'space-between'
+});
+
+var secondColumn = $('<div>').css({
+    'display': 'flex',
+    'flex-direction': 'column',
+    'align-items': 'flex-start',
+    'justify-content': 'flex-start'
+});
 
 let student_panel = define_new_effective_permissions("studio_panel", true)
   
@@ -60,7 +80,7 @@ file_permission_users.css({
 })
 
 // Make button to add a new user to the list:
-perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add...', on_user_change = function(selected_user){
+perm_add_user_select = define_new_user_select_field('perm_add_user', 'Add new user', on_user_change = function(selected_user){
     // console.log("add...")
     let filepath = perm_dialog.attr('filepath')
     if(selected_user && (selected_user.length > 0) && (selected_user in all_users)) { // sanity check that a user is actually selected (and exists)
@@ -156,17 +176,18 @@ perm_remove_user_button.click(function(){
 
 
 // --- Append all the elements to the permissions dialog in the right order: --- 
-perm_dialog.append(obj_name_div)
-perm_dialog.append($('<div id="permissions_user_title"><h4><b>Select </b>Group or user names to view permission: (If an user or group does not exist in the list, click on add)</h4></div>'))
-perm_dialog.append(file_permission_users)
-perm_dialog.append(perm_add_user_select)
-perm_dialog.append($('<div id="permission_panel_explanation"><h4>Current detailed permissions for selected user: (click on info icon to view explanation)</h4></div>'))
-perm_dialog.append(student_panel)
-perm_dialog.append($('<div id="grayed_out_explanation"><h4>Click on checkboxes to edit permission settings for selected user:</h4></div>'))
-perm_dialog.append($('<div id="grayed_out_explanation"><b>Note: </b>Some checkboxes may be grayed out due to inheritance, check <b>Advanced</b> settings</div>'))
-perm_dialog.append($('<div id="grayed_out_explanation"><b>If certain user is allowed for a permission, but it belongs to a parent group that denies that permission, deny overrides allow and the user is not allowed for that permission.</div>'))
+firstColumn.append(obj_name_div)
+firstColumn.append($('<div id="permissions_user_title"><h4><b>Select </b>Group or user names to view permission: (If an user or group does not exist in the list, click on add)</h4></div>'))
+firstColumn.append(file_permission_users)
+firstColumn.append(perm_add_user_select)
+
+firstColumn.append($('<div id="grayed_out_explanation"><h4>Click on checkboxes to edit permission settings for selected user:</h4></div>'))
 perm_add_user_select.append(perm_remove_user_button) // Cheating a bit again - add the remove button the the 'add user select' div, just so it shows up on the same line.
-perm_dialog.append(grouped_permissions)
+firstColumn.append(grouped_permissions)
+secondColumn.append($('<div id="permission_panel_explanation"><h4>Current detailed permissions for selected user: (click on info icon to view explanation)</h4></div>'))
+secondColumn.append(student_panel)
+secondColumn.append($('<div id="permission_panel_explanation"><h4>Remember, if a group has denied an permission, all its users are also denied!</h4></div>'))
+perm_dialog.append(firstColumn, secondColumn);
 $(".perm_info").click(function () {
     dialog.empty()
     let filename = student_panel.attr("filepath")
